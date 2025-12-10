@@ -1,0 +1,78 @@
+RELATORIO:
+
+Trabalho Final Pac-Man Prog 2 - UFRJ
+
+Alunos:
+1 - Matheus de Castro Dell Orto Azeredo - (123110312)
+2 - Rode Kong (Dre: 122116284)
+3 - Lucas Rodrigues Araujo (Dre: 123134439)
+4 - Gabriel Delgado Aguiar Moreira - (Dre: 120033804)
+
+Seção com uma descrição do trabalho (quais funcionalidades foram implementadas):
+    No projeto Pac-Man, as funcionalidades implementadas incluem:
+        -Controle do Pac-Man: Movimentação do personagem principal pelo mapa.
+        -Fantasmas: Implementação dos inimigos com lógica de perseguição.
+        -Sistema de colisão: Detecção de colisões entre Pac-Man, fantasmas e elementos do mapa.
+        -Gerenciamento de mapas: Carregamento e integração dos mapas com a tela principal.
+        -Interface gráfica: Exibição visual do jogo.
+        -Menu inicial: Navegação e início da partida.
+
+    Essas funcionalidades estão organizadas em arquivos específicos do projeto:
+        - entidades.c/.h: Gerenciam os personagens (Pac-Man e fantasmas).
+        - colisoes.c/.h: Implementam a lógica de colisão.
+        - mapa.c/.h: Manipulam o carregamento e atualização dos mapas.
+        - graficos.c/.h: Cuidam da renderização gráfica.
+        - menu.c/.h: Controlam o menu inicial e navegação.
+        - main.c: Integra todas as partes e gerencia o fluxo principal do jogo.
+
+
+Seção com as descisões do trabalho (como funcionalidades foram implementadas);
+    Um resumo detalhado de como as funcionalidades foram implementadas em cada arquivo .c presente no projeto:
+        Durante o desenvolvimento do projeto Pac-Man, diversas decisões técnicas 
+        foram tomadas para garantir a funcionalidade, desempenho e organização 
+        do código. Abaixo estão as principais escolhas e justificativas:
+
+    - Estrutura Modular:
+        O projeto foi dividido em múltiplos arquivos (main.c, jogo.c, mapa.c, entidades.c, etc.), 
+        cada um responsável por um aspecto específico do jogo. Essa abordagem facilita a manutenção 
+        e o entendimento do código.
+
+    - Gestão de Entidades:
+        As entidades do jogo (Pac-Man, fantasmas, frutas) foram implementadas em entidades.c e entidades.h, 
+        utilizando structs para representar seus estados e funções para manipulação. 
+        Isso permitiu um controle eficiente sobre movimentação e colisões.
+
+    - Sistema de Colisões:
+        As colisões entre entidades e o mapa foram tratadas em colisoes.c, separando a lógica de detecção 
+        e resposta a colisões. Isso tornou o código mais limpo e permitiu fácil ajuste das regras de interação.
+
+    - Renderização Gráfica
+        A exibição dos elementos visuais foi centralizada em graficos.c, utilizando 
+        funções para desenhar o mapa, entidades e interface. Essa separação garantiu 
+        que mudanças visuais não afetassem a lógica do jogo.
+
+    - Gestão do Mapa
+        O mapa do jogo foi implementado em mapa.c, com funções para carregar, modificar 
+        e exibir o labirinto. A escolha por um array bidimensional facilitou a verificação 
+        de posições e movimentação dos personagens.
+
+    - Menu e Interface
+        O menu principal e as opções de jogo foram desenvolvidos em menu.c, permitindo navegação 
+        intuitiva e separando a lógica de interface da lógica do jogo.
+
+    - Makefile
+        A compilação do projeto foi automatizada via makefile, simplificando o processo de build
+        e garantindo que todas as dependências fossem corretamente gerenciadas.
+
+
+
+Seção com a divisão das responsabilidades (quem implementou as funcionalidades);  (Divisão das partes (Amanha))
+- AAA:(Lucas)
+
+- AAA:(Matheus)
+
+- Implementações do jogo com os fantasmas:(Gabriel)
+    Fez abc 
+
+- Integração entre a main e os mapas: (Rode)
+    Fez abc
