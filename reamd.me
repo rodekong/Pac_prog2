@@ -1,0 +1,845 @@
+# PAC-MAN UFRJ 🎮
+
+Um clone completo do clássico jogo PAC-MAN desenvolvido em C utilizando a biblioteca Raylib, criado como projeto acadêmico para a UFRJ.
+
+## 📋 Índice
+
+- [Sobre o Projeto](#sobre-o-projeto)
+- [Características](#características)
+- [Requisitos](#requisitos)
+- [Instalação](#instalação)
+- [Como Jogar](#como-jogar)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Formato dos Mapas](#formato-dos-mapas)
+- [Controles](#controles)
+- [Funcionalidades Técnicas](#funcionalidades-técnicas)
+- [Compilação](#compilação)
+- [Sistema de Save/Load](#sistema-de-saveload)
+- [Solução de Problemas](#solução-de-problemas)
+- [Créditos](#créditos)
+
+## 🎯 Sobre o Projeto
+
+PAC-MAN UFRJ é uma implementação fiel do clássico jogo arcade PAC-MAN, desenvolvido em C puro com a biblioteca gráfica Raylib. O projeto implementa todas as mecânicas clássicas do jogo original com melhorias modernas:
+
+- ✅ **Sistema de níveis** com mapas customizáveis via arquivo .txt
+- ✅ **Inteligência artificial avançada** dos fantasmas com perseguição e fuga
+- ✅ **Sistema completo de colisões** em tempo real
+- ✅ **Power pellets** com efeitos visuais e temporização
+- ✅ **Portais/túneis** para teleporte instantâneo
+- ✅ **Menu interativo** com animações
+- ✅ **Sistema de save/load** para continuar partidas
+- ✅ **HUD informativo** com estatísticas em tempo real
+
+## ✨ Características
+
+### 🎮 Gameplay Completo
+
+#### Personagens
+- **PAC-MAN** (Jogador)
+  - 3 vidas iniciais
+  - Movimento suave e responsivo
+  - Modo power-up temporário
+  - Velocidade configurável
+
+- **FANTASMAS** (Inimigos)
+  - Quantidade definida no arquivo de mapa (marcador 'F')
+  - IA inteligente com dois comportamentos:
+    - **Modo Normal**: Persegue o PAC-MAN ativamente
+    - **Modo Vulnerável**: Foge do PAC-MAN (quando power pellet ativo)
+  - Movimento independente e coordenado
+  - Velocidade ajustável separadamente
+  - Cada fantasma possui contador de frames individual
+
+#### Sistema de Pontuação
+- **Pellets normais (`.`)**: 10 pontos cada
+- **Power pellets (`O`)**: 50 pontos + ativa modo power
+- **Fantasmas vulneráveis**: 200 pontos cada
+- Pontuação total acumulativa entre níveis
+
+#### Elementos do Mapa
+- **Paredes (`#`)**: Bloqueiam movimento
+- **Pellets (`.`)**: Pontos básicos (10 pts)
+- **Power Pellets (`O`)**: Pontos + poder temporário (50 pts)
+- **Portais (`T`)**: Teleportam para outro portal no mapa
+- **Fantasmas (`F`)**: Posicionamento inicial dos inimigos
+- **Espaços vazios (` `)**: Áreas livres para movimento
+
+### 🎨 Interface Gráfica
+
+#### Menu Principal
+- Sistema de navegação por setas/WASD
+- Opções disponíveis:
+  1. **NOVO JOGO**: Escolha entre 2 níveis
+  2. **CARREGAR JOGO**: Continue de onde parou (se houver save)
+  3. **SAIR**: Encerra o jogo
+- Animações suaves e feedback visual
+- Detecção automática de saves disponíveis
+
+#### HUD Durante o Jogo
+- **Vidas**: Quantidade de vidas restantes
+- **Pontos**: Pontuação total com 6 dígitos
+- **Nível**: Nível atual sendo jogado
+- **Pellets**: Contador de pellets restantes no mapa
+- **Power Mode**: Indicador quando power pellet está ativo
+
+#### Telas Especiais
+- **Pausa**: Congela o jogo mantendo visualização
+- **Game Over**: Exibe pontuação final com opção de reiniciar
+- **Vitória**: Celebra conclusão do nível com opções de continuar
+
+### 🗺️ Sistema de Níveis
+
+#### Nível 1 - Mapa Básico
+```
+Arquivo: assets/mapa1.txt
+Descrição: Layout clássico, ideal para iniciantes
+Características:
+- Estrutura simples e intuitiva
+- Posicionamento balanceado de fantasmas
+- Sem túneis de teleporte
+- Pellets bem distribuídos
+```
+
+#### Nível 2 - Mapa Avançado
+```
+Arquivo: assets/mapa2.txt
+Descrição: Com túneis e desafios extras
+Características:
+- Portais de teleporte ativos
+- Layout mais complexo
+- Maior desafio de navegação
+- Fantasmas em posições estratégicas
+```
+
+## 🔧 Requisitos
+
+### Software Necessário
+```
+- Compilador C: GCC 7.0+ ou Clang 9.0+
+- Biblioteca: Raylib 4.0 ou superior
+- Make: Opcional, para compilação automatizada
+- Sistema Operacional: Windows, Linux ou macOS
+```
+
+### Especificações de Hardware
+```
+- CPU: Processador dual-core 2.0 GHz ou superior
+- RAM: 256 MB mínimo
+- GPU: Suporte a OpenGL 3.3+
+- Armazenamento: 50 MB de espaço livre
+```
+
+## 📦 Instalação
+
+### 1. Clone o Repositório
+
+```bash
+git clone [URL_DO_REPOSITORIO]
+cd pacman-ufrj
+```
+
+### 2. Instale a Raylib
+
+#### Linux (Ubuntu/Debian)
+```bash
+sudo apt-get update
+sudo apt-get install libraylib-dev
+```
+
+#### Linux (Fedora)
+```bash
+sudo dnf install raylib-devel
+```
+
+#### Windows
+1. Baixe Raylib: https://www.raylib.com/
+2. Extraia na pasta do projeto ou em C:\raylib
+3. Configure as variáveis de ambiente
+
+#### macOS
+```bash
+brew install raylib
+```
+
+### 3. Estrutura de Pastas
+
+Organize os arquivos conforme abaixo:
+
+```
+pacman-ufrj/
+├── main.c
+├── jogo.c
+├── jogo.h
+├── menu.c
+├── menu.h
+├── mapa.c
+├── mapa.h
+├── entidades.c
+├── entidades.h
+├── colisoes.c
+├── colisoes.h
+├── graficos.c
+├── graficos.h
+├── assets/
+│   ├── mapa1.txt          # OBRIGATÓRIO
+│   ├── mapa2.txt          # OBRIGATÓRIO
+│   ├── logo.png           # Opcional
+│   ├── menu_bg.png        # Opcional
+│   └── fonts/
+│       └── pacfont.ttf    # Opcional
+├── Makefile               # Opcional
+└── README.md
+```
+
+### 4. Configure os Mapas
+
+Crie os arquivos de mapa em `assets/`:
+
+**Exemplo mapa1.txt (mínimo):**
+```
+############################
+#............##............#
+#.####.#####.##.#####.####.#
+#O####.#####.##.#####.####O#
+#..........................#
+#.####.##.########.##.####.#
+######.##### ## #####.######
+F    #.##          ##.#    F
+######.## ######## ##.######
+      .              .      
+######.## ######## ##.######
+F    #.##          ##.#    F
+######.## ######## ##.######
+#............##............#
+#.####.#####.##.#####.####.#
+#O..##.......  .......##..O#
+###.##.##.########.##.##.###
+#......##....##....##......#
+#..........................#
+############################
+```
+
+**IMPORTANTE**: 
+- Use `F` para marcar posições iniciais dos fantasmas
+- Mínimo de 1 fantasma, máximo de 10
+- Pellets (`.`) e power pellets (`O`) serão contados automaticamente
+
+## 🎮 Como Jogar
+
+### Objetivo
+Coma todos os pellets do mapa enquanto evita os fantasmas. Use os power pellets para ganhar vantagem temporária e comer os fantasmas para pontos extras!
+
+### Regras do Jogo
+
+1. **Coletar Pellets**
+   - Pellets normais (`.`): 10 pontos
+   - Power pellets (`O`): 50 pontos + modo power
+   - Objetivo: Comer TODOS os pellets para vencer
+
+2. **Evitar/Comer Fantasmas**
+   - **Fantasmas vermelhos**: Perdem uma vida ao tocar
+   - **Fantasmas azuis**: Podem ser comidos (200 pontos)
+   - Fantasmas ficam azuis após pegar power pellet
+
+3. **Usar Portais**
+   - Portais (`T` - magenta) teleportam instantaneamente
+   - Úteis para escapar de fantasmas
+   - Mantêm a direção do movimento
+
+4. **Gerenciar Vidas**
+   - Começa com 3 vidas
+   - Perde vida ao colidir com fantasma normal
+   - Game over quando zerar as vidas
+
+5. **Completar Níveis**
+   - Vitória ao comer todos os pellets
+   - Pode avançar para próximo nível (se disponível)
+   - Pontuação acumulativa
+
+### Estratégias de Jogo
+
+**Iniciante:**
+- Planeje rotas antes de se mover
+- Use power pellets estrategicamente
+- Observe padrões de movimento dos fantasmas
+
+**Avançado:**
+- Atraia fantasmas para cantos
+- Use portais para emboscadas
+- Maximize pontos comendo todos os fantasmas vulneráveis
+
+## 🗂️ Estrutura do Projeto
+
+### Arquivos Principais
+
+```
+pacman-ufrj/
+│
+├── main.c                 # Ponto de entrada e loop principal
+│   └─ Funções: main()
+│
+├── jogo.c / jogo.h       # Lógica central e estados do jogo
+│   ├─ Estados: MENU, JOGANDO, PAUSA, GAME_OVER, VITORIA
+│   ├─ Gerenciamento de níveis
+│   ├─ Sistema de pontuação e vidas
+│   └─ Coordenação de todos os módulos
+│
+├── menu.c / menu.h       # Sistema de menus
+│   ├─ Menu principal
+│   ├─ Seleção de níveis
+│   ├─ Confirmação de saída
+│   └─ Sistema de navegação
+│
+├── mapa.c / mapa.h       # Carregamento e manipulação de mapas
+│   ├─ Leitura de arquivos .txt
+│   ├─ Contagem de pellets
+│   ├─ Detecção de posições de fantasmas (marcador 'F')
+│   └─ Validação de estrutura
+│
+├── entidades.c / entidades.h  # PAC-MAN e Fantasmas
+│   ├─ Criação e gerenciamento
+│   ├─ Sistema de movimento
+│   ├─ IA dos fantasmas (perseguição/fuga)
+│   ├─ Estados (normal, vulnerável, power)
+│   ├─ Contadores de frames individuais
+│   └─ Controle de velocidade independente
+│
+├── colisoes.c / colisoes.h    # Detecção de colisões
+│   ├─ Colisões com paredes
+│   ├─ Colisões com pellets
+│   ├─ Colisões entre entidades
+│   ├─ Processamento de portais
+│   └─ Verificação em tempo real
+│
+└── graficos.c / graficos.h    # Renderização
+    ├─ Desenho do mapa
+    ├─ Desenho de entidades
+    ├─ HUD com informações
+    └─ Telas especiais
+```
+
+### Módulos Detalhados
+
+#### `main.c`
+**Responsabilidade**: Ciclo de vida da aplicação
+```c
+Funções principais:
+- main(): Loop principal do jogo
+  * Inicialização da janela
+  * Loop de eventos (input → update → render)
+  * Finalização e cleanup
+```
+
+#### `jogo.c/h`
+**Responsabilidade**: Controle de fluxo e estados
+```c
+Estados do jogo:
+- MENU: Menu principal
+- JOGANDO: Gameplay ativo
+- PAUSA: Jogo pausado
+- GAME_OVER: Fim de jogo
+- VITORIA: Nível completado
+
+Funções principais:
+- inicializarJogo(): Setup inicial
+- atualizarJogo(): Lógica de gameplay
+- desenharJogo(): Renderização por estado
+- processarInput(): Input específico por estado
+- carregarMapaPorNivel(): Carrega mapa específico
+```
+
+#### `menu.c/h`
+**Responsabilidade**: Interface de menu
+```c
+Estados do menu:
+- MENU_PRINCIPAL: Tela inicial
+- MENU_SELECAO_NIVEL: Escolha de nível
+- MENU_SAIR_CONFIRMAR: Confirmação de saída
+
+Estrutura Menu:
+- EstadoMenu estado
+- OpcaoMenu opcaoSelecionada
+- int nivelSelecionado (1 ou 2)
+- Sistema de animações
+- Recursos gráficos (texturas, fontes)
+```
+
+#### `mapa.c/h`
+**Responsabilidade**: Gerenciamento de mapas
+```c
+Estrutura Mapa:
+- char** matriz: Matriz de caracteres
+- int linhas, colunas: Dimensões
+- int pontosRestantes: Contador de pellets
+- char nome[100]: Nome do arquivo
+- int num_fantasmas: Quantidade de fantasmas
+- int fantasma_linhas[10]: Posições Y dos fantasmas
+- int fantasma_colunas[10]: Posições X dos fantasmas
+
+Funções:
+- carregarMapa(): Lê arquivo .txt
+- liberarMapa(): Libera memória
+- remover_pellet(): Remove pellet do mapa
+- remover_power_pellet(): Remove power pellet
+- definirCelula(): Modifica célula específica
+```
+
+#### `entidades.c/h`
+**Responsabilidade**: Personagens do jogo
+```c
+Estrutura PacMan:
+- Posicao pos: Coordenadas (linha, coluna)
+- int vidas: Vidas restantes
+- int pontos: Pontuação total
+- int power_timer: Timer do power pellet
+- int direcao: Direção atual (1-4)
+
+Estrutura Fantasma:
+- Posicao pos: Coordenadas
+- int vulneravel: Estado vulnerável (0/1)
+- int timer_vulneravel: Timer de vulnerabilidade
+- int direcao: Direção atual (0-3)
+- int frame_counter: Contador individual de frames
+- Fantasma* prox: Próximo na lista encadeada
+
+IA dos Fantasmas:
+- Modo Normal: 
+  * Calcula distância Manhattan até PAC-MAN
+  * Escolhe direção que minimiza distância
+  * Evita reverter direção (anti-oscilação)
+  
+- Modo Vulnerável:
+  * Calcula distância Manhattan até PAC-MAN
+  * Escolhe direção que maximiza distância
+  * Movimento mais lento (speed_factor 10 vs 15)
+
+Controle de Velocidade:
+- PAC-MAN: pacman_speed_factor (padrão: 2)
+  * Menor valor = mais rápido
+  * Range: 1-5
+  
+- Fantasmas: fantasma_speed_factor (padrão: 15)
+  * Cada fantasma tem frame_counter próprio
+  * Movimento independente e assíncrono
+  * Vulnerável: speed_factor 10 (mais lento)
+```
+
+#### `colisoes.c/h`
+**Responsabilidade**: Física e colisões
+```c
+Tipos de Colisão:
+- COLISAO_NENHUMA: Espaço livre
+- COLISAO_PAREDE: Bloqueia movimento
+- COLISAO_PELLET: +10 pontos
+- COLISAO_POWER_PELLET: +50 pontos + power
+- COLISAO_PORTAL: Teleporte
+- COLISAO_FANTASMA: Perde vida
+- COLISAO_FANTASMA_VULNERAVEL: +200 pontos
+
+Sistema de Detecção:
+- Verificação em tempo real a cada frame
+- Colisões processadas imediatamente
+- Reposicionamento automático após perda de vida
+```
+
+#### `graficos.c/h`
+**Responsabilidade**: Renderização visual
+```c
+Configurações:
+- BLOCO_TAMANHO: 40x40 pixels
+- LARGURA_JANELA: 1600 pixels
+- ALTURA_JANELA: 840 pixels (800 + 40 HUD)
+- FPS: 60 frames por segundo
+
+Cores:
+- COR_PAREDE: BLUE
+- COR_PACMAN: YELLOW
+- COR_FANTASMA: RED
+- COR_FANTASMA_VULNERAVEL: BLUE
+- COR_PELLET: WHITE
+- COR_POWER_PELLET: GREEN
+- COR_PORTA: MAGENTA
+- COR_FUNDO: BLACK
+```
+
+## 📄 Formato dos Mapas
+
+### Símbolos Suportados
+
+| Símbolo | Descrição | Efeito |
+|---------|-----------|--------|
+| `#` | Parede | Bloqueia movimento |
+| `.` | Pellet | 10 pontos |
+| `O` | Power Pellet | 50 pontos + power mode |
+| `T` | Portal | Teleporte |
+| `F` | Fantasma | Posição inicial do inimigo |
+| ` ` | Espaço vazio | Livre para movimento |
+
+### Regras de Criação
+
+1. **Dimensões**
+   - Mínimo: 10x10 caracteres
+   - Máximo: 100x100 caracteres
+   - Todas as linhas devem ter mesma largura (preenchidas com espaços)
+
+2. **Fantasmas**
+   - Use `F` para marcar posição inicial
+   - Mínimo: 1 fantasma
+   - Máximo: 10 fantasmas
+   - O sistema remove automaticamente o `F` e cria o fantasma
+   - **IMPORTANTE**: Cada `F` deve estar em célula livre (não parede)
+
+3. **Bordas**
+   - Recomendado cercar o mapa com paredes `#`
+   - Evita que entidades saiam dos limites
+   - Portais verticais requerem limites definidos
+
+4. **Pellets**
+   - Use `.` para pellets normais (10 pts)
+   - Use `O` para power pellets (50 pts + power)
+   - Sistema conta automaticamente para vitória
+
+5. **Portais**
+   - Devem existir em pares (`T` conecta com outro `T`)
+   - Funcionam em ambas direções
+   - Mantêm direção de movimento após teleporte
+
+### Exemplo Completo de Mapa
+
+```
+############################
+#............##............#    <- Pellets normais
+#.####.#####.##.#####.####.#
+#O####.#####.##.#####.####O#    <- Power pellets nos cantos
+#..........................#
+#.####.##.########.##.####.#
+######.##### ## #####.######
+F    #.##    T     ##.#    F    <- Fantasmas e portal
+######.## ######## ##.######
+      .              .      
+######.## ######## ##.######
+F    #.##    T     ##.#    F    <- Segundo par de fantasmas/portal
+######.## ######## ##.######
+#............##............#
+#.####.#####.##.#####.####.#
+#O..##.......  .......##..O#    <- Power pellets
+###.##.##.########.##.##.###
+#......##....##....##......#
+#..........................#
+############################
+
+Características deste mapa:
+- 4 fantasmas (marcados com F)
+- 2 portais (marcados com T, formam par)
+- 4 power pellets (marcados com O)
+- ~200 pellets normais (marcados com .)
+- Paredes formam labirinto clássico
+```
+
+### Validação Automática
+
+O sistema valida automaticamente:
+- ✅ Arquivo existe e pode ser lido
+- ✅ Dimensões dentro dos limites
+- ✅ Posições de fantasmas são válidas (não em paredes)
+- ✅ Contagem de pellets para vitória
+- ✅ Espaços livres para PAC-MAN spawn
+
+## 🎮 Controles
+
+### Menu Principal
+| Tecla | Ação |
+|-------|------|
+| `↑` / `W` | Navegar para cima |
+| `↓` / `S` | Navegar para baixo |
+| `ENTER` / `ESPAÇO` | Confirmar seleção |
+| `R` | Voltar ao menu principal |
+
+### Seleção de Nível
+| Tecla | Ação |
+|-------|------|
+| `←` / `A` | Nível anterior |
+| `→` / `D` | Próximo nível |
+| `ENTER` / `ESPAÇO` | Iniciar jogo |
+| `R` | Voltar ao menu |
+
+### Durante o Jogo
+| Tecla | Ação |
+|-------|------|
+| `↑` / `W` | Mover para cima |
+| `↓` / `S` | Mover para baixo |
+| `←` / `A` | Mover para esquerda |
+| `→` / `D` | Mover para direita |
+| `P` | Pausar/Despausar |
+| `R` | Voltar ao menu |
+| `S` | Salvar jogo atual |
+| `T` | Reiniciar nível (debug) |
+
+### Telas de Pausa/Game Over/Vitória
+| Tecla | Ação |
+|-------|------|
+| `ENTER` | Reiniciar/Continuar |
+| `N` | Próximo nível (só na vitória, nível 1) |
+| `R` | Voltar ao menu |
+| `P` | Continuar (só na pausa) |
+
+## 🔨 Compilação
+
+### Opção 1: GCC Direto (Linux/macOS)
+
+```bash
+gcc main.c jogo.c menu.c mapa.c entidades.c colisoes.c graficos.c \
+    -o pacman \
+    -lraylib -lm -lpthread -ldl -lrt -lX11 \
+    -O2 -Wall -Wextra
+
+./pacman
+```
+
+### Opção 2: GCC com flags detalhadas
+
+```bash
+gcc -std=c99 -Wall -Wextra -Wpedantic \
+    main.c jogo.c menu.c mapa.c entidades.c colisoes.c graficos.c \
+    -o pacman \
+    -I/usr/local/include \
+    -L/usr/local/lib \
+    -lraylib -lm -lpthread -ldl -lrt -lX11 \
+    -O2
+
+./pacman
+```
+
+### Opção 3: Windows (MinGW)
+
+```bash
+gcc main.c jogo.c menu.c mapa.c entidades.c colisoes.c graficos.c \
+    -o pacman.exe \
+    -I"C:\raylib\include" \
+    -L"C:\raylib\lib" \
+    -lraylib -lopengl32 -lgdi32 -lwinmm \
+    -O2 -Wall
+
+pacman.exe
+```
+
+### Opção 4: Makefile (Recomendado)
+
+Crie um arquivo `Makefile`:
+
+```makefile
+CC = gcc
+CFLAGS = -std=c99 -Wall -Wextra -O2
+LIBS = -lraylib -lm -lpthread -ldl -lrt -lX11
+
+# Para macOS, use:
+# LIBS = -lraylib -framework OpenGL -framework Cocoa -framework IOKit
+
+# Para Windows, use:
+# LIBS = -lraylib -lopengl32 -lgdi32 -lwinmm
+
+SOURCES = main.c jogo.c menu.c mapa.c entidades.c colisoes.c graficos.c
+OBJECTS = $(SOURCES:.c=.o)
+TARGET = pacman
+
+all: $(TARGET)
+
+$(TARGET): $(OBJECTS)
+	$(CC) $(OBJECTS) -o $(TARGET) $(LIBS)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -f $(OBJECTS) $(TARGET)
+
+run: $(TARGET)
+	./$(TARGET)
+
+.PHONY: all clean run
+```
+
+Uso:
+```bash
+make          # Compila
+make run      # Compila e executa
+make clean    # Remove arquivos compilados
+```
+
+### Verificar Compilação
+
+Teste se compilou corretamente:
+```bash
+./pacman --version   # Ou apenas execute
+./pacman             # Deve abrir a janela do jogo
+```
+
+## 💾 Sistema de Save/Load
+
+### Como Funciona
+
+O jogo salva automaticamente em formato binário no arquivo `savegame.dat`.
+
+**Dados Salvos:**
+- Nível atual (1 ou 2)
+- Pontuação total
+- Vidas restantes
+
+### Como Salvar
+
+**Durante o Jogo:**
+1. Pressione `S` durante gameplay
+2. Mensagem confirma save bem-sucedido
+3. Arquivo `savegame.dat` é criado/atualizado
+
+**Console mostrará:**
+```
+Salvando jogo... (tecla S)
+Jogo salvo com sucesso! Nível: 1, Pontos: 1250, Vidas: 2
+```
+
+### Como Carregar
+
+**No Menu Principal:**
+1. Selecione "CARREGAR JOGO"
+2. Se houver save, o jogo continua automaticamente
+3. PAC-MAN e fantasmas são reposicionados
+4. Pontuação e vidas são restauradas
+
+**Status no Menu:**
+- ✅ Verde: "Jogo salvo disponível" (save existe)
+- ❌ Cinza: "Nenhum save" (opção desabilitada)
+
+### Localização do Save
+
+```
+Linux/macOS: ./savegame.dat (pasta do executável)
+Windows: savegame.dat (pasta do executável)
+```
+
+### Resetar Progresso
+
+Para começar do zero:
+```bash
+rm savegame.dat        # Linux/macOS
+del savegame.dat       # Windows
+```
+
+## 🐛 Solução de Problemas
+
+### Problema: Jogo não inicia
+
+**Sintomas:**
+- Janela não abre
+- Erro ao executar
+
+**Soluções:**
+```bash
+# Verifique se Raylib está instalada
+pkg-config --modversion raylib   # Linux
+brew info raylib                 # macOS
+
+# Verifique permissões
+chmod +x pacman                  # Linux/macOS
+
+# Recompile com debug
+gcc -g main.c jogo.c menu.c mapa.c entidades.c colisoes.c graficos.c \
+    -o pacman -lraylib -lm -lpthread -ldl -lrt -lX11
+```
+
+### Problema: Mapas não carregam
+
+**Sintomas:**
+- "ERRO CRÍTICO: Não foi possível carregar mapa"
+- Tela preta ou volta ao menu
+
+**Soluções:**
+1. **Verifique arquivos:**
+   ```bash
+   ls -la assets/
+   # Deve mostrar mapa1.txt e mapa2.txt
+   ```
+
+2. **Verifique formato:**
+   - Todas linhas têm mesma largura?
+   - Caracteres são válidos (`#`, `.`, `O`, `T`, `F`, espaço)?
+   - Arquivo tem quebras de linha Unix (LF)?
+
+3. **Teste leitura:**
+   ```bash
+   cat assets/mapa1.txt   # Exibe conteúdo
+   wc -l assets/mapa1.txt # Conta linhas
+   ```
+
+### Problema: Fantasmas não aparecem ou não se movem
+
+**Sintomas:**
+- Nenhum fantasma visível
+- Fantasmas parados
+- Jogo muito fácil
+
+**Diagnóstico:**
+```bash
+# Execute e observe console:
+./pacman
+
+# Procure por:
+"Fantasma 1 criado em (X,Y)"
+"Fantasmas: N criados com sucesso"
+```
+
+**Soluções:**
+1. **Verifique arquivo de mapa:**
+   - Contém pelo menos um `F`?
+   - `F` não está em cima de parede `#`?
+   - Exemplo: `F` deve estar em espaço livre ou `.`
+
+2. **Valide posições:**
+   - Abra `mapa1.txt` e procure por `F`
+   - Certifique que cada `F` tem espaço livre ao redor
+
+3. **Debug detalhado:**
+   - Adicione em `entidades.c`:
+   ```c
+   printf("DEBUG: Fantasma movendo de (%d,%d) para direção %d\n",
+          fantasma->pos.linha, fantasma->pos.coluna, fantasma->direcao);
+   ```
+
+### Problema: Colisões não funcionam
+
+**Sintomas:**
+- PAC-MAN passa por paredes
+- Fantasmas não causam dano
+- Pellets não somam pontos
+
+**Soluções:**
+1. **Verifique ordem de atualização:**
+   ```c
+   // Em jogo.c, atualizarJogo():
+   atualizarEntidades(mapaAtual);      // Primeiro
+   verificarTodasColisoes(mapaAtual);  // Depois
+   ```
+
+2. **Teste colisão manual:**
+   - Tente mover contra parede
+   - Deve parar completamente
+   - Console deve mostrar colisões
+
+3. **Recompile sem otimização:**
+   ```bash
+   gcc -O0 -g main.c ... -o pacman
+   ```
+
+### Problema: Desempenho ruim / Lag
+
+**Sintomas:**
+- FPS baixo
+- Movimento travado
+- Delay no input
+
+**Soluções:**
+1. **Ajuste velocidade:**
+   ```c
+   // Em entidades.c:
+   pacman_speed_factor = 3;     // Aumentar
