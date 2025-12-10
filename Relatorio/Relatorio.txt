@@ -202,5 +202,13 @@ Seção com a divisão das responsabilidades (quem implementou as funcionalidade
 - Implementações do jogo com os fantasmas:(Gabriel)
     Fez abc 
 
-- Integração entre a main e os mapas: (Rode)
-    Fez abc
+- Parte dos Graficos: (Rode)
+    Graficos.c/graficos.h
+
+    Funções que foram implementadas.
+
+    void inicializar_janela(void); Inicializa a janela do jogo com a resolução e FPS definidos
+
+    void fechar_janela(void); Fecha a janela do jogo e encerra o contexto graficos
+
+    void desenhar_mapa(Mapa* mapa); Desenha todo o mapa passado como argumento
