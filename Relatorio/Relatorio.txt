@@ -69,7 +69,135 @@ Seção com as descisões do trabalho (como funcionalidades foram implementadas)
 Seção com a divisão das responsabilidades (quem implementou as funcionalidades);  (Divisão das partes (Amanha))
 - AAA:(Lucas)
 
-- AAA:(Matheus)
+- Parte dos Mapas e Entidades:(Matheus)
+    - mapa.h - Cabeçalho do sistema de mapas
+    Definição da estrutura Mapa: Armazena matriz do labirinto, dimensões, pellets restantes, nome do arquivo e posições dos fantasmas
+
+    Funções principais:
+
+    carregarMapa(): Carrega um mapa de arquivo
+
+    liberarMapa(): Libera memória do mapa
+
+    contarPontosMapa(): Retorna número de pellets restantes
+
+    verificarCelula(): Verifica tipo de célula em posição específica
+
+    definirCelula(): Modifica valor de uma célula
+
+    remover_pellet() e remover_power_pellet(): Remove pellets específicos
+
+    mapa.c - Implementação do sistema de mapas
+    Leitura de arquivos de mapa:
+
+    Suporte a diferentes formatos de quebra de linha (Windows/Linux)
+
+    Extração automática do nome do arquivo
+
+    Validação de dimensões
+
+    Processamento de células:
+
+    Identifica diferentes elementos: # (paredes), . (pellets), O (power pellets), F (fantasmas), T (portais)
+
+    Contagem automática de pellets e power pellets
+
+    Extração de posições dos fantasmas do arquivo
+
+    Gerenciamento de memória:
+
+    Alocação dinâmica da matriz
+
+    Limpeza adequada de recursos
+
+    Funcionalidades adicionais:
+
+    Suporte a teleporte horizontal (túneis)
+
+    Debug com impressão de informações do mapa
+
+    - entidades.h - Cabeçalho do sistema de entidades
+    Definições de estruturas:
+
+    Posicao: Coordenadas (linha, coluna)
+
+    PacMan: Jogador com posição, vidas, pontos, timer de power-up e direção
+
+    Fantasma: Inimigos com posição, estado de vulnerabilidade, timer, direção e contador de frames individual
+
+    Sistema de direções: Constantes para movimentação (cima, baixo, esquerda, direita)
+
+    Funções de gerenciamento:
+
+    Criação e destruição de entidades
+
+    Movimentação com colisão
+
+    IA de fantasmas (perseguição/fuga)
+
+    Controle de velocidade
+
+    Atualização de estados
+
+    Variáveis globais: Ponteiros para Pac-Man e lista de fantasmas
+
+    - entidades.c - Implementação do sistema de entidades
+    Sistema de velocidade independente:
+
+    Contadores de frames individuais para Pac-Man e cada fantasma
+
+    Fatores de velocidade ajustáveis (1-5)
+
+    Funções para aumentar/diminuir velocidade
+
+    Inicialização inteligente:
+
+    Posicionamento automático do Pac-Man em local válido
+
+    Criação de fantasmas a partir das posições do mapa
+
+    Verificação de colisões iniciais
+
+    Movimentação avançada:
+
+    Pac-Man: Movimento controlado por input, coleta de pellets, ativação de power-ups
+
+    Fantasmas:
+
+    Modo perseguição: Minimiza distância ao Pac-Man
+
+    Modo fuga (vulnerável): Maximiza distância do Pac-Man
+
+    Evita oscilação (não volta pela mesma direção)
+
+    Teleporte através de túneis
+
+    Sistema de colisão:
+
+    Colisão com paredes
+
+    Colisão Pac-Man × Fantasma com diferentes resultados baseados no estado
+
+    Coleta de pellets e power pellets
+
+    Estados especiais:
+
+    Power pellet: Torna fantasmas vulneráveis por tempo limitado
+
+    Timer de vulnerabilidade com efeitos visuais
+
+    Gerenciamento de jogo:
+
+    Sistema de vidas
+
+    Pontuação (10 pontos por pellet, 50 por power pellet, 200 por fantasma comido)
+
+    Reposicionamento após morte
+
+    Finalização de jogo
+
+    Debug: Funções para imprimir estado completo das entidades
+
 
 - Implementações do jogo com os fantasmas:(Gabriel)
     Fez abc 
