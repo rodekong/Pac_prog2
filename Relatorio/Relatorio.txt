@@ -113,6 +113,8 @@ Seção com a divisão das responsabilidades (quem implementou as funcionalidade
             Normalmente seria usada no loop principal do jogo.
 
 
+        colisoes.C:
+
 
 - Parte dos Mapas e Entidades:(Matheus)
     - mapa.h - Cabeçalho do sistema de mapas
@@ -245,7 +247,27 @@ Seção com a divisão das responsabilidades (quem implementou as funcionalidade
 
 
 - Implementações do jogo com os fantasmas:(Gabriel)
-    Fez abc 
+    1. main.c: O Orquestrador
+    Este arquivo é o ponto de entrada (entry point) da aplicação. Sua função é extremamente enxuta, servindo apenas para inicializar e manter o ciclo de vida do jogo.
+        • Ciclo de Vida: Inicializa a janela e o contexto do jogo (inicializarJogo), entra no loop principal do Raylib (while !WindowShouldClose) e, ao final, limpa a memória.
+        • Delegação: Ele não contém lógica de jogo; apenas chama funções de atualização (atualizarJogo) e desenho (desenharJogo) definidas em outros módulos.
+    2. menu.h: As Definições (Interface)
+    Este cabeçalho define a estrutura de dados e os contratos para o sistema de menus.
+        • Máquina de Estados: Define o enum EstadoMenu para controlar onde o usuário está (Menu Principal, Seleção de Nível, Confirmar Saída).
+        • Estrutura de Dados: A struct Menu centraliza tudo: estado atual, animações, recursos gráficos (texturas/fontes) e dados do sistema de salvamento (temSave, saveFileName).
+        • Opções: Define as constantes para as opções do menu: Novo Jogo, Carregar e Sair.
+    3. menu.c: A Lógica do Menu
+    Este é o arquivo mais complexo, contendo a implementação visual e funcional do menu.
+        • Gerenciamento de Input:
+        • Usa WASD ou Setas para navegar entre as opções e Enter/Espaço para selecionar.
+        • Possui lógica para transitar entre estados (ex: ao escolher "Novo Jogo", muda o estado para MENU_SELECAO_NIVEL).
+        • Sistema de Save/Load (Persistência):
+        • Salvar: A função salvar_jogo grava dados binários (fwrite) contendo nível, pontos e vidas no arquivo savegame.dat.
+        • Carregar: A função carregar_jogo lê esses dados binários.
+        • Flag de Carregamento: Curiosamente, quando o jogador escolhe "Carregar Jogo", o código define menu->nivelSelecionado = -1 como um sinalizador especial para o motor do jogo saber que deve carregar um save em vez de iniciar um nível novo.
+        • Renderização e Visual:
+        • Define cores personalizadas (ex: COR_TITULO, COR_FUNDO_MENU).
+        • Desenha botões com animações simples (efeito de escala/seno quando selecionado) e carrega fontes personalizadas (pacfont.ttf) se disponíveis.
 
 - Parte dos Graficos: (Rode)
     Graficos.c
