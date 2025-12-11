@@ -4,8 +4,8 @@ Trabalho Final Pac-Man Prog 2 - UFRJ
 
 Alunos:
 1 - Matheus de Castro Dell Orto Azeredo - (123110312)
-2 - Rode Kong (Dre: 122116284)
-3 - Lucas Rodrigues Araujo (Dre: 123134439)
+2 - Rode Kong - (Dre: 122116284)
+3 - Lucas Rodrigues Araujo - (Dre: 123134439)
 4 - Gabriel Delgado Aguiar Moreira - (Dre: 120033804)
 
 Seção com uma descrição do trabalho (quais funcionalidades foram implementadas):
@@ -21,7 +21,7 @@ Seção com uma descrição do trabalho (quais funcionalidades foram implementad
         - entidades.c/.h: Gerenciam os personagens (Pac-Man e fantasmas).
         - colisoes.c/.h: Implementam a lógica de colisão.
         - mapa.c/.h: Manipulam o carregamento e atualização dos mapas.
-        - graficos.c/.h: Cuidam da renderização gráfica.
+        - graficos.c/.h: Cuidam da renderização gráfica (parte visual).
         - menu.c/.h: Controlam o menu inicial e navegação.
         - main.c: Integra todas as partes e gerencia o fluxo principal do jogo.
 
@@ -66,54 +66,31 @@ Seção com as descisões do trabalho (como funcionalidades foram implementadas)
 
 
 
-Seção com a divisão das responsabilidades (quem implementou as funcionalidades);  (Divisão das partes (Amanha))
+Seção com a divisão das responsabilidades (quem implementou as funcionalidades);
 - Parte das colisoes:(Lucas)
     - colisoes.h
-        Implementei typedef's TipoColisao e ResultadoColisao e utilizei algumas funções utilizado em mapa.h e entidades.h
-
-        Funções utilizadas:
-
-        ResultadoColisao verificar_colisao_pacman(PacMan* pacman, Mapa* mapa, Fantasma* fantasmas);
-            Essa é a função principal de colisão do Pac-Man.
-            Ela verifica:
-            se o próximo movimento bate em uma parede
-            se tem pellet
-            se tem power pellet
-            se tem fantasma
-            se tem portal
-            e retorna tudo dentro de um ResultadoColisao
-
-        int verificar_colisao_fantasma_mapa(Fantasma* fantasma, MApa* mapa);
-            Essa função verifica se um fantasma vai bater em uma parede.
-            Retorna algo como:
-            0 → movimento permitido
-            1 → bateu na parede
-            Serve para IA dos fantasmas não atravessarem paredes.
-
-        int verificar_colisao_fantasma_fantasma(Fantasma* fantasma, Fantasma* lista, int excluir_atual);
-            Verifica se um fantasma colidiu com outro fantasma.
-            Usada para evitar fantasmas ocuparem a mesma célula e ajustar movimentação.
-            O parâmetro:
-            excluir_atual = índice do fantasma para ignorar na comparação
-        
-        void processar_portal(Mapa* mapa, int*linha, int*coluna, int direção);
-            Função usada quando o Pac-Man entra em um portal.
-            Ela:
-            identifica o portal correspondente
-            define a nova linha e nova coluna de saída
-            ajusta a direção
-            Exemplo: entrar pela esquerda e sair na direita do mapa.
+        //tipos de dados: 
+        enum TipoColisao -> define os 7 tipos possiveis de interaçao (PACMAN_FANTASMA, FANTASMA_PAREDE, FANTASMA_FANTASMA, PORTAL).
+        struct ResultadoColisao -> estrutura de resposta que contem informaçoes sobre o resultado de uma colisao (tipo de colisao, entidades envolvidas, index doinimigo, etc).
+        //Protótipos de Funcoes (API):
+        verificar_colisao_pacman -> sensor principal para retornar o ResultadoColisao baseado na proxima posiçao do jogador.
+        verificar_colisao_fantasma_mapa -> validaçao de terreno apra IA, impede a entrada em paredes.
+        verificar_colisao_fantasma_fantasma -> controle de sobreposiçao, impede que dois fantasmas ocupem a mesma coordenada.
+        processar_portal -> calcula as coordenadas de destino ao entrar em um tunel.
+        verificarTodasColisoes -> aplica as regras do jogo, alterando o estado global.
 
 
-        void verficarTodasColisoes(Mapa* mapa);
-            Provavelmente serve para:
-            fazer verificação global de colisões
-            atualizar pellets, power pellets, fantasmas vulneráveis
-            processar eventos de jogo
-            Normalmente seria usada no loop principal do jogo.
+
+        colisoes.C: 
+            funcao: contar_fantasmas_lista -> percorre a lista de entidades e conta quantas sao fantasmas.
+            funcao: verificar_colisao_ pacman -> verifica se o pacman colidiu com algum fantasma na lista de entidades.
+            funcao: verificar_colisao_fantasma_mapa -> verifica se algum fantasma colidiu com as paredes do mapa.   
+            funcao: verificar_colisao_fantasma_fantasma -> verifica se algum fantasma colidiu com outro fantasma na lista de entidades.
+            funcao: processar_portal -> executa a mecanica de teletransporte quando o pacman ou um fantasma entra em um portal.   
+            funcao: verificarTodasColisoes -> funcao principal que chama todas as funcoes de verificacao de colisoes e processa as consequencias dessas colisoes.
+            altera o estado global do jogo conforme necessario (ex: reduzir vidas do pacman, reiniciar posicoes, etc).
 
 
-        colisoes.C:
 
 
 - Parte dos Mapas e Entidades:(Matheus)
@@ -274,7 +251,7 @@ Seção com a divisão das responsabilidades (quem implementou as funcionalidade
 
     Implementei a biblioteca <stdio.h> (biblioteca padrão da linguagem C) e inclui Definições apresentadas no arquivo graficos.h
 
-    Funções que foram implementadas(quase todos usando Ponteiros,pilha,lista,fila).
+    Funções que foram implementadas.
 
     void inicializar_janela(void); Inicializa a janela do jogo com a resolução e FPS definidos
 
