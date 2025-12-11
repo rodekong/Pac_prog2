@@ -69,6 +69,8 @@ Seção com as descisões do trabalho (como funcionalidades foram implementadas)
 Seção com a divisão das responsabilidades (quem implementou as funcionalidades);  (Divisão das partes (Amanha))
 - AAA:(Lucas)
 
+
+
 - Parte dos Mapas e Entidades:(Matheus)
     - mapa.h - Cabeçalho do sistema de mapas
     Definição da estrutura Mapa: Armazena matriz do labirinto, dimensões, pellets restantes, nome do arquivo e posições dos fantasmas
@@ -203,12 +205,30 @@ Seção com a divisão das responsabilidades (quem implementou as funcionalidade
     Fez abc 
 
 - Parte dos Graficos: (Rode)
-    Graficos.c/graficos.h
+    Graficos.c
 
-    Funções que foram implementadas.
+    Implementei a biblioteca <stdio.h> (biblioteca padrão da linguagem C) e inclui Definições apresentadas no arquivo graficos.h
+
+    Funções que foram implementadas(quase todos usando Ponteiros,pilha,lista,fila).
 
     void inicializar_janela(void); Inicializa a janela do jogo com a resolução e FPS definidos
 
     void fechar_janela(void); Fecha a janela do jogo e encerra o contexto graficos
 
     void desenhar_mapa(Mapa* mapa); Desenha todo o mapa passado como argumento
+
+    void desenhar_pacman(PacMan* pacman) Foi alocado para desenhar o personagem Pac-Man
+
+    void desenhar_fantasmas(Fantasma*lista); Foi alocado para desenhar todos os fantasmas da lista alocada
+
+    void desenhar_hud(PacMan*pacman, Mapa*mapa, int nivel); Desenha a HUB com as informações(quantidade de vida, Pontuação,
+    nivel, pellets restantes)
+
+    int tecla_para_direção(void); Essa função foi implementada para converter/traduzir os comandos indicados no teclado para o codigo
+    (Key_W ou Key_up = cima, Key_s ou Key_down = baixo, Key_a ou Key_left = esquerda, Key_d ou Key_right = direita)
+
+    Graficos.h
+
+    Foi implementada as funções de alguns arquivos utlizados(mapa.h e entidades.h), e fiz uma definição de cores para cada item do jogo (parede,fantasma,
+    personagens e etc), definimos tambem o tamanho da tela/hub de acordo com o relatorio do projeto apresentado em aula 
+    (Largura de Janela 1600 e a sua altura 840)
