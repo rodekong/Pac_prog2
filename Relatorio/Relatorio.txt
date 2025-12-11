@@ -67,7 +67,50 @@ Seção com as descisões do trabalho (como funcionalidades foram implementadas)
 
 
 Seção com a divisão das responsabilidades (quem implementou as funcionalidades);  (Divisão das partes (Amanha))
-- AAA:(Lucas)
+- Parte das colisoes:(Lucas)
+    - colisoes.h
+        Implementei typedef's TipoColisao e ResultadoColisao e utilizei algumas funções utilizado em mapa.h e entidades.h
+
+        Funções utilizadas:
+
+        ResultadoColisao verificar_colisao_pacman(PacMan* pacman, Mapa* mapa, Fantasma* fantasmas);
+            Essa é a função principal de colisão do Pac-Man.
+            Ela verifica:
+            se o próximo movimento bate em uma parede
+            se tem pellet
+            se tem power pellet
+            se tem fantasma
+            se tem portal
+            e retorna tudo dentro de um ResultadoColisao
+
+        int verificar_colisao_fantasma_mapa(Fantasma* fantasma, MApa* mapa);
+            Essa função verifica se um fantasma vai bater em uma parede.
+            Retorna algo como:
+            0 → movimento permitido
+            1 → bateu na parede
+            Serve para IA dos fantasmas não atravessarem paredes.
+
+        int verificar_colisao_fantasma_fantasma(Fantasma* fantasma, Fantasma* lista, int excluir_atual);
+            Verifica se um fantasma colidiu com outro fantasma.
+            Usada para evitar fantasmas ocuparem a mesma célula e ajustar movimentação.
+            O parâmetro:
+            excluir_atual = índice do fantasma para ignorar na comparação
+        
+        void processar_portal(Mapa* mapa, int*linha, int*coluna, int direção);
+            Função usada quando o Pac-Man entra em um portal.
+            Ela:
+            identifica o portal correspondente
+            define a nova linha e nova coluna de saída
+            ajusta a direção
+            Exemplo: entrar pela esquerda e sair na direita do mapa.
+
+
+        void verficarTodasColisoes(Mapa* mapa);
+            Provavelmente serve para:
+            fazer verificação global de colisões
+            atualizar pellets, power pellets, fantasmas vulneráveis
+            processar eventos de jogo
+            Normalmente seria usada no loop principal do jogo.
 
 
 
