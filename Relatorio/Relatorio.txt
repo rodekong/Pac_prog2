@@ -246,7 +246,7 @@ Seção com a divisão das responsabilidades (quem implementou as funcionalidade
     Debug: Funções para imprimir estado completo das entidades
 
 
-- Implementações do jogo com os fantasmas:(Gabriel)
+- Parte da Main e do menu:(Gabriel)
     1. main.c: O Orquestrador
     Este arquivo é o ponto de entrada (entry point) da aplicação. Sua função é extremamente enxuta, servindo apenas para inicializar e manter o ciclo de vida do jogo.
         • Ciclo de Vida: Inicializa a janela e o contexto do jogo (inicializarJogo), entra no loop principal do Raylib (while !WindowShouldClose) e, ao final, limpa a memória.
